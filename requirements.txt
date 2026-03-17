@@ -1,0 +1,12 @@
+planetary-computer
+pystac-client
+odc-stac
+stackstac
+rasterio
+geopandas
+shapely
+numpy
+opencv-python
+ultralytics
+huggingface-hub
+tqdm
