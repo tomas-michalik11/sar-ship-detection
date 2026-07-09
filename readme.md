@@ -1,19 +1,22 @@
-# SAR Ship Detection Pipeline
-
-Automated ship detection in the Strait of Hormuz using Sentinel-1 SAR data and YOLOv8.
-
-## How it works
-
-1. Downloads Sentinel-1 GRD scenes from Microsoft Planetary Computer
-2. Merges multiple scenes to cover the full area of interest
-3. Creates a sea mask using Natural Earth land polygons
-4. Runs YOLOv8 inference on 640x640 tiles across the scene
-5. Deduplicates detections and filters land false positives
-6. Exports results as GeoJSON
-
-## Example output
+# 🚢 SAR Ship Detection Pipeline
 
 ![Detection result](outputs/example.png)
+
+An automated, end-to-end geospatial ML pipeline for detecting ships in Sentinel-1 Synthetic Aperture Radar (SAR) imagery. 
+
+## 🚀 Project Overview
+
+This project streams Sentinel-1 GRD data via STAC API, processes large-scale satellite imagery through dynamic tiling, and utilizes a fine-tuned YOLOv8 model for object detection. It handles complete coordinate transformations and geospatial post-processing to deliver clean, georeferenced data.
+
+**Tech Stack:** `Python` | `YOLOv8` | `STAC API` | `Rasterio` | `GeoPandas` | `OpenCV`
+
+## ⚙️ How It Works (The Pipeline)
+
+1. **Serverless Data Retrieval:** Queries and merges Sentinel-1 scenes directly from the Microsoft Planetary Computer using **STAC API** (`pystac_client`, `odc.stac`). No manual downloading required.
+2. **Geospatial Preprocessing:** Dynamically generates vector-based sea masks using Natural Earth datasets (`GeoPandas`, `Rasterio`) to filter out landmasses and reduce false positives.
+3. **Tiled ML Inference:** Splits massive SAR arrays into 640x640 overlapping tiles, normalizes pixel values dynamically, and runs **YOLOv8** detection.
+4. **Post-processing & NMS:** Converts pixel coordinates back to geographic coordinates (EPSG:4326), applies Non-Maximum Suppression (NMS) to deduplicate overlapping bounding boxes, and filters out land detections.
+5. **Vector Export:** Outputs ready-to-use, georeferenced point detections as a `GeoJSON` FeatureCollection.
 
 ## Installation
 ```bash
